@@ -1,11 +1,9 @@
 %macro my_print 2
     pushad
-
     push %2
     push %1
     call printf
     add esp, 8
-
     popad
 %endmacro
 
@@ -18,8 +16,9 @@
     add esp, 12
     popad
 %endmacro
- %macro change_stack_size 1
-   mov ebx, ARGN(2)         ; ebx = char** argv
+
+%macro change_stack_size 1
+    mov ebx, ARGN(2)         ; ebx = char** argv
     add ebx, %1                 
     mov ebx, dword [ebx]     ; ebx = argv[1]
     push ebx
@@ -90,7 +89,7 @@
 %define NEXT(r) dword [r+1]
 
 section	.rodata			
-	format_string: db "%s", 10, 0
+    format_string: db "%s", 10, 0
     format_decimal: db "%d", 10, 0
     format_octal: db "%o",10, 0
     calc_string:   db "calc: ", 0
@@ -129,8 +128,8 @@ section .text
   extern stderr
 
 main:
-	push ebp
-	mov ebp, esp
+    push ebp
+    mov ebp, esp
 
     mov eax, dword [stack_size]
 
@@ -182,8 +181,8 @@ main:
     ret	
 
 myCalc:
-	push ebp
-	mov ebp, esp
+    push ebp
+    mov ebp, esp
 
     main_loop:
     push calc_string                       
@@ -321,7 +320,7 @@ addNumber:
 ;from the far right to the far left, and each 8 bits we put in a link
 
     push ebp
-	mov ebp, esp
+    mov ebp, esp
 
     cmp dword[debug_mode],1
     jne cont_addNumber
@@ -369,14 +368,9 @@ addNumber:
     pop ebp
     ret
 
-
-
-
-
-
 A:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     
     mov ecx, dword[ebp+8] 
     mov ebx, 0
@@ -436,7 +430,7 @@ A:
 
 B:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
 
     mov ecx, dword[ebp+8]
     mov ebx, 0
@@ -485,7 +479,7 @@ B:
 
 C:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     
     mov ecx, dword[ebp+8]
     mov ebx, 0
@@ -516,7 +510,7 @@ C:
 
 getInput:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     
     push dword [stdin]            
     push 80                 
@@ -528,8 +522,8 @@ getInput:
     ret
 
 create_link:
-	push ebp
-	mov ebp, esp
+    push ebp
+    mov ebp, esp
     
     push ecx
     push 5
@@ -547,7 +541,7 @@ create_link:
 
 add_operator:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     mov edx, dword [ebp+8] 
     mov ebx, dword [ebp+12]
 
@@ -661,7 +655,7 @@ add_operator:
 
 popandprint_operator:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     mov ecx, dword [ebp+8] ; adress of the first link
     push ecx
     call print_convertion
@@ -680,7 +674,7 @@ popandprint_operator:
 
 dup_operator:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     mov ecx, dword [ebp+8]
     mov dword[current_link], 0
 
@@ -718,7 +712,7 @@ dup_operator:
 
 and_operator:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     mov edx, dword [ebp+8] 
     mov ebx, dword [ebp+12]
 
@@ -742,7 +736,6 @@ and_operator:
     add esp, 4
     pop edx
     pop ebx
-
 
     cmp dword [current_link], 0
     je .firstLink
@@ -789,7 +782,7 @@ and_operator:
 
 n_operator:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
 
     mov ecx, 0             ;counter
     mov ebx, dword[ebp+8]
@@ -904,7 +897,7 @@ strLength:
 
 print_convertion:
     push ebp
-	mov ebp, esp
+    mov ebp, esp
     mov ecx, dword [ebp+8]
     mov ebx, buffertoprint
     add ebx, 79
